@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      position: relative;
+      background-color: black;
+      /* cursor: none; */
+      overflow: hidden;
+    }
+    h1 {
+      color: #fff;
+    }
+    /* .cursor_item {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background-color: red;
+      top: 0;
+      left: 0;
+    } */
+    .human {
+      position: absolute;
+      left: calc(50% - 150px);
+      width: 300px;
+      z-index: 1;
+    }
+    .bg {
+      position: absolute;
+    }
+    .bg2 {
+      position: absolute;
+      z-index: 98;
+      top: 300px;
+      width: 350px;
+    }
+    .textWrap {
+      position : absolute;
+        left: 50%;
+        top: 10%;
+        transform: translate(-50%, 0);
+        width: 60%;
+        z-index : 1;
+        transform-style: preserve-3d; 
+        perspective: 300px;
+    }
+    .logo {
+      position: absolute;
+      left: calc(50% - 150px);
+      transition: all 0.3s ease;
+      z-index: 99;
+      
+    }
+  </style>
+</head>
+<body>
+  <h1>test</h1>
+  <div class="cursor_item"></div>
+  <img class="human" src="./images/3d_text/layer-7.png" alt="사람">
+  <img class="bg" src="./images/3d_text/layer-1.jpg" alt="벽">
+  <img class="bg2" src="./images/3d_text/layer-9.png" alt="벽2">
+  <div class="textWrap">
+    <img class="logo" src="./images/3d_text/masthead-logo.svg" alt="벽2"></div>
+  <script>
+    let human;
+    let bg;
+    let bg2;
+    let logo;
+    let h1;
+    
+    // 마우스의 x,y값을 생성(부드럽게 모셥줄때를 위해서 생성)
+    let x = 0;
+    let y = 0;
+    let z = 0;
+    let mX = 0;
+    let mY = 0;
+    let mX2 = 0;
+    let mY2 = 0;
+    let speed = 0.004;
+    let speed2 = 0.009;
+
+    // window.onload 화면이 다 로딩되면 실행하라는 명령
+    window.onload = function(){
+      // getElementsByTagName을 이용해서 h1의 첫번째를 사용
+      h1 = document.getElementsByTagName("h1")[0];
+      human = document.getElementsByClassName("human")[0];
+      bg = document.getElementsByClassName("bg")[0];
+      bg2 = document.getElementsByClassName("bg2")[0];
+      logo = document.getElementsByClassName("logo")[0];
+      // 마우스 움직일때 
+      window.addEventListener("mousemove", mouseFunc, false);
+      // 마우스 움직일때 이벤트 적용
+      // ClientX, ClientY
+      function mouseFunc(e){
+        // 전체 화면 크기에서 /2를 잘라서 멀리있는 이미지를 가운데 오게함
+        x = (e.clientX - window.innerWidth / 2);
+        y = (e.clientY - window.innerHeight / 2);
+        // console.log(e.ClientX, e.ClientY);
+      }
+      
+      // 루브를 만든거 화면에 불러옴
+      loop();
+    }
+    
+    // 마우스를 움직일때 부드럽게 따라오게하기 
+    // requestAnimationFrame 계속 실시간으로 찍힘
+    function loop() {
+      mX += (x - mX) * speed;
+      mY += (y - mY) * speed;
+      h1.innerHTML = "x : "+mX + " y : " +mY;
+      // 이미지가 움직일때 움직임이 적게하려면 /숫자 로 나누면됨
+      human.style.transform = "translate("+(mX/10)+"px, "+(mY/10)+"px"+")";
+      bg.style.transform = "translate("+(-mX/10)+"px, "+(-mY/10)+"px"+")";
+      bg2.style.transform = "translate("+(mX/3)+"px, "+(mY/3)+"px"+")";
+      logo.style.transform = "translate3d("+ -(mX/2) +"px," + -(mY/2) +"px,0) rotate3d(0,1,0,"+ -mX / 50 +"deg)";
+      // 마이너스값을 넣으면 반대로 움직임
+      // human.style.transform = "translate("+-mX+"px, "+-mY+"px"+")";
+      window.requestAnimationFrame(loop);
+    }
+  </script>
+</body>
+</html>

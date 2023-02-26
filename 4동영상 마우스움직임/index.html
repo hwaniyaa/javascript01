@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    img {
+      position: absolute;
+    }
+    .vod {
+      position: absolute;
+    }
+  </style>
+</head>
+<body>
+  <img src="https://paidpost-assets.nyt.com/paidpost/allbirds/birds-eye-view/images/1-b90e91a4.png">
+  <img src="https://paidpost-assets.nyt.com/paidpost/allbirds/birds-eye-view/images/2-f3fd6cf5.png">
+  <div class="vod"><video autoplay="" playsinline="" loop="" muted="" src="https://paidpost-assets.nyt.com/paidpost/allbirds/birds-eye-view/videos/3-27c8c3ea.webm"></video></div>
+  <img src="https://paidpost-assets.nyt.com/paidpost/allbirds/birds-eye-view/images/4-105dd65b.png">
+  <img src="https://paidpost-assets.nyt.com/paidpost/allbirds/birds-eye-view/images/5-ac49bfdc.png">
+
+  <script>
+    let x = 0;
+    let y = 0;
+    let mX = 0;
+    let mY = 0;
+    let speed = 0.01;
+
+    let _imgArr;
+    let _bird;
+
+    window.onload = function(){
+      _imgArr = document.getElementsByTagName("img");
+      _bird = document.getElementsByClassName("vod");
+
+      window.addEventListener("mousemove", mouseFunc, false);
+      function mouseFunc(e){
+        x = (e.clientX - window.innerWidth / 2);
+        y = (e.clientY - window.innerHeight / 2);
+      }
+      loop();
+    }
+    function loop() {
+      mX += (x - mX) * speed;
+      mY += (y - mY) * speed;
+
+      _imgArr[0].style.transform = "translate("+ -(mX/6) +"px, "+ -(mY/6) +"px)";
+      _imgArr[1].style.transform = "translate("+ (mX/5) +"px, "+ (mY/5) +"px)";
+      _imgArr[2].style.transform = "translate("+ -(mX/3) +"px, "+ -(mY/3) +"px)";
+      _imgArr[3].style.transform = "translate("+ (mX/4) +"px, "+ (mY/4) +"px)";
+
+      _bird[0].style.transform = "translate("+ (mX/9) +"px, "+ (mY/9) +"px)";
+
+      window.requestAnimationFrame(loop);
+    }
+  </script>
+</body>
+</html>

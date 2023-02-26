@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      position: relative;
+      background-color: black;
+      cursor: none;
+    }
+    h1 {
+      color: #fff;
+    }
+    .cursor_item {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background-color: red;
+      top: 0;
+      left: 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>test</h1>
+  <div class="cursor_item"></div>
+  <script>
+    let cursor;
+    let h1;
+    // 마우스의 x,y값을 생성(부드럽게 모셥줄때를 위해서 생성)
+    let x = 0;
+    let y = 0;
+    let mX = 0;
+    let mY = 0;
+    let speed = 0.05;
+
+    // window.onload 화면이 다 로딩되면 실행하라는 명령
+    window.onload = function(){
+      // getElementsByTagName을 이용해서 h1의 첫번째를 사용
+      // h1 = document.getElementsByTagName("h1")[0];
+      cursor = document.getElementsByClassName("cursor_item")[0];
+      // 마우스 움직일때 
+      window.addEventListener("mousemove", mouseFunc, false);
+      // 마우스 움직일때 이벤트 적용
+      // ClientX, ClientY
+      function mouseFunc(e){
+        x = e.clientX;
+        y = e.clientY;
+        // console.log(e.ClientX, e.ClientY);
+      }
+      
+      // 루브를 만든거 화면에 불러옴
+      loop();
+    }
+    
+    // 마우스를 움직일때 부드럽게 따라오게하기 
+    // requestAnimationFrame 계속 실시간으로 찍힘
+    function loop() {
+      mX += (x - mX) * speed;
+      mY += (y - mY) * speed;
+      cursor.style.transform = "translate("+mX+"px, "+mY+"px"+")";
+      // h1.innerHTML = "x : "+mX + " y : " +mY;
+      window.requestAnimationFrame(loop);
+    }
+  </script>
+</body>
+</html>
